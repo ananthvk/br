@@ -19,11 +19,11 @@ pub struct Cli {
     #[arg(value_name = "DIRECTORY")]
     pub dir: Option<PathBuf>,
 
-    /// Execute the operations, without this flag only a dry run is produced
+    /// Rename the files, without this flag only a dry run is performed
     #[arg(short = 'x', long = "execute", default_value_t=false)]
     pub execute: bool,
     
-    /// Does not ask any "are you sure?" confirmation questions
+    /// Do not ask any "are you sure?" confirmation questions
     #[arg(long="noconfirm", default_value_t=false)]
     pub noconfirm: bool
 }
