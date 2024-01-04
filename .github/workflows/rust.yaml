@@ -1,10 +1,10 @@
 name: Rust
-
+run-name: Building br CLI using cargo
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [master]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [master]
 
 env:
   CARGO_TERM_COLOR: always
