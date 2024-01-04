@@ -25,7 +25,7 @@ pub fn rename(config: Cli) {
             let suffix = &f[regex_match.range().end..];
             print!("{}{}{}", prefix, regex_match.as_str().red().bold(), suffix);
             let replaced = re.replace_all(&f, &config.replace_expr);
-            println!(" => {}", replaced.white().bold());
+            println!(" {} {}", "=>".white().bold(), replaced);
             if config.execute {
                 fs::rename(&f, &*replaced).unwrap();
             }
