@@ -27,8 +27,7 @@ pub fn rename(config: Cli) {
     for entry in paths {
         let f = entry
             .unwrap()
-            .path()
-            .into_os_string()
+            .file_name()
             .into_string()
             .unwrap();
         if re.is_match(&f)  && start.is_match(&f) {
