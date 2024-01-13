@@ -25,5 +25,9 @@ pub struct Cli {
     
     /// Do not ask any "are you sure?" confirmation questions
     #[arg(long="noconfirm", default_value_t=false)]
-    pub noconfirm: bool
+    pub noconfirm: bool,
+
+    /// Filters files which start with a given pattern. To specify multiple filters -s "foo" -s "bar"
+    #[arg(short='s', long="starts-with", allow_hyphen_values=true, number_of_values=1, value_name="STRING")]
+    pub starts_with_list: Vec<String>
 }

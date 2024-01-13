@@ -40,7 +40,7 @@ Recursive flag, and max recursion depth
 Log file to view the operations performed
 
 ## Tasks list
-1. Implement basic command line handling
-2. Next implement regex substitution
+1. [x] Implement basic command line handling
+2. [x] Next implement regex substitution
 3. Add the recursive and dry run flags
 4. TODO
