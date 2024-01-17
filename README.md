@@ -21,3 +21,13 @@ Options:
 ```
 
 ## Installation
+After installing `Rust`,
+
+```
+cargo install --git https://github.com/ananthvk/br
+```
+
+## Notes
+For substitutions, use `${1}`, `${2}` and so on instead of `\1`
+
+Use single quotes `'` instead  of double quotes to avoid shell expansion when using `${x}` in your replacement string.
