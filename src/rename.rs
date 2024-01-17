@@ -10,19 +10,26 @@ use std::path::PathBuf;
 // Also if a file exists, give an option to overwrite or not
 // By default do not overwrite
 
-fn get_dir_contents(config: &Cli) -> Box<dyn Iterator<Item = String>> {
-    let target_directory = match config.dir.as_deref() {
-        Some(p) => p.to_path_buf(),
-        None => PathBuf::from("."),
-    };
+fn get_dir_contents(target_directory: &PathBuf) -> Box<dyn Iterator<Item = String>> {
     let entries = fs::read_dir(target_directory)
         .unwrap()
         .map(|entry| entry.unwrap().file_name().into_string().unwrap());
     Box::new(entries)
 }
 
+fn rename_entry(from: &str, to: &str) {
+    fs::rename(from, to).unwrap();
+}
+
 pub fn rename(config: Cli) {
-    let files = get_dir_contents(&config);
+    let target_directory = match config.dir.as_deref() {
+        Some(p) => p.to_path_buf(),
+        None => PathBuf::from("."),
+    };
+    let target_directory = fs::canonicalize(&target_directory).unwrap();
+
+    std::env::set_current_dir(&target_directory).unwrap();
+    let files = get_dir_contents(&target_directory);
     let mut filters: Vec<Regex> = Vec::new();
     let re = Regex::new(&config.search_expr).unwrap();
 
@@ -35,22 +42,15 @@ pub fn rename(config: Cli) {
         if re.is_match(&file) {
             let replacement = regex_replace(&file, &config.replace_expr, &re);
             match_display(&replacement);
-        }
-    }
-    /*
-    for entry in paths {
-        let f = entry.unwrap().file_name().into_string().unwrap();
-        if re.is_match(&f) && start.is_match(&f) {
-            let regex_match = re.find(&f).unwrap();
-            let prefix = &f[..regex_match.range().start];
-            let suffix = &f[regex_match.range().end..];
-            print!("{}{}{}", prefix, regex_match.as_str().red().bold(), suffix);
-            let replaced = re.replace_all(&f, &config.replace_expr);
-            println!(" {} {}", "=>".white().bold(), replaced);
             if config.execute {
-                fs::rename(&f, &*replaced).unwrap();
+                if !config.noconfirm {
+                    if ask_confirmation() {
+                        rename_entry(&file, &replacement.replaced);
+                    }
+                } else {
+                    rename_entry(&file, &replacement.replaced);
+                }
             }
         }
     }
-    */
 }
