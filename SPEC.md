@@ -42,5 +42,10 @@ Log file to view the operations performed
 ## Tasks list
 1. [x] Implement basic command line handling
 2. [x] Next implement regex substitution
-3. Add the recursive and dry run flags
-4. TODO
+3. [x] Add dry run flag
+4. [x] Add confirmation (yes no for each rename)
+5. [ ] Add recursive flag
+6. [ ] Implement startswith filter
+7. [ ] Improved error messages
+8. [ ] Directory content changes during iteration
+9. [ ] Differentiate between folder and files
