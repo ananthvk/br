@@ -45,7 +45,7 @@ Log file to view the operations performed
 3. [x] Add dry run flag
 4. [x] Add confirmation (yes no for each rename)
 5. [x] Add basic tests to check the working of all operations
-6. [ ] Remove calls to unwrap() and handle errors correctly
+6. [x] Remove calls to unwrap() and handle errors correctly
 7. [x] Flag to replace all  
 8. [ ] Give warning if rename overwrites an already existing file
 9. [ ] Add recursive flag

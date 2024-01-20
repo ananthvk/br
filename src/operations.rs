@@ -19,7 +19,10 @@ pub fn regex_replace<'a>(
         let matches: Vec<regex::Match> = re.find_iter(&filename).collect();
         matches
     } else {
-        vec![re.find(&filename).unwrap()]
+        match re.find(&filename) {
+            Some(v) => vec![v],
+            None => vec![],
+        }
     };
 
     let replaced = if replace_all {
