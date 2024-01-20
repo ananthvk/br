@@ -38,7 +38,12 @@ pub fn rename(config: Cli) {
         filters.push(generate_startswith_filter(&startswith).unwrap())
     }
 
-    for file in files {
+    'outer: for file in files {
+        for filter in &filters {
+            if !filter.is_match(&file) {
+                continue 'outer;
+            }
+        }
         if re.is_match(&file) {
             let replacement = regex_replace(&file, &config.replace_expr, &re);
             match_display(&replacement);

@@ -29,5 +29,9 @@ pub struct Cli {
 
     /// Filters files which start with a given pattern. To specify multiple filters -s "foo" -s "bar"
     #[arg(short='s', long="starts-with", allow_hyphen_values=true, number_of_values=1, value_name="STRING")]
-    pub starts_with_list: Vec<String>
+    pub starts_with_list: Vec<String>,
+
+    /// Filters entries with the given regex
+    #[arg(short='f', long="filter", allow_hyphen_values=true, value_name="FILTER REGEX")]
+    pub filter_regex: Option<String>
 }

@@ -5,6 +5,6 @@ mod operations;
 use clap::Parser;
 fn main() {
     let cli = cli::Cli::parse();
-    println!("{:#?}", cli);
+    // println!("{:#?}", cli);
     rename::rename(cli);
 }

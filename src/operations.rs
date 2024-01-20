@@ -1,9 +1,8 @@
-
 use std::io::{self, Write};
 
+use regex::Regex;
 use colored::*;
 
-use regex::Regex;
 
 pub struct RegexReplacement<'a> {
     pub filename: &'a str,
@@ -43,5 +42,18 @@ pub fn ask_confirmation() -> bool {
         Ok(n) if n > 0 && line.chars().next().unwrap() == 'N' => false,
         Ok(_) => false,
         Err(err) => panic!("{:#?}", err),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::regex_replace;
+    use regex::Regex;
+
+    #[test]
+    fn test_regex_replacement() {
+        let re = Regex::new("te").unwrap();
+        let replaced = regex_replace("testte.txt", "foo", &re);
+        assert!(replaced.replaced == "foostte.txt");
     }
 }
