@@ -45,7 +45,7 @@ pub fn rename(config: Cli) {
             }
         }
         if re.is_match(&file) {
-            let replacement = regex_replace(&file, &config.replace_expr, &re);
+            let replacement = regex_replace(&file, &config.replace_expr, &re, config.replace_all);
             match_display(&replacement);
             if config.execute {
                 if !config.noconfirm {

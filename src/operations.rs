@@ -1,12 +1,11 @@
 use std::io::{self, Write};
 
-use regex::Regex;
 use colored::*;
-
+use regex::Regex;
 
 pub struct RegexReplacement<'a> {
     pub filename: &'a str,
-    pub m: regex::Match<'a>,
+    pub m: Vec<regex::Match<'a>>,
     pub replaced: String,
 }
 
@@ -14,9 +13,20 @@ pub fn regex_replace<'a>(
     filename: &'a str,
     replacement: &'a str,
     re: &'a Regex,
+    replace_all: bool,
 ) -> RegexReplacement<'a> {
-    let regex_match = re.find(&filename).unwrap();
-    let replaced = re.replace(&filename, replacement);
+    let regex_match = if replace_all {
+        let matches: Vec<regex::Match> = re.find_iter(&filename).collect();
+        matches
+    } else {
+        vec![re.find(&filename).unwrap()]
+    };
+
+    let replaced = if replace_all {
+        re.replace_all(&filename, replacement)
+    } else {
+        re.replace(&filename, replacement)
+    };
     RegexReplacement {
         filename,
         m: regex_match,
@@ -25,10 +35,17 @@ pub fn regex_replace<'a>(
 }
 
 pub fn match_display(r: &RegexReplacement) {
-    let prefix = &r.filename[..r.m.range().start];
-    let suffix = &r.filename[r.m.range().end..];
-    print!("{}{}{}", prefix, r.m.as_str().red().bold(), suffix);
-    println!(" {} {}", "=>".white().bold(), r.replaced);
+    let mut prev_idx = 0;
+    for (i, rmatch) in (r.m).iter().enumerate() {
+        let prefix = &r.filename[prev_idx..rmatch.range().start];
+        print!("{}{}", prefix, rmatch.as_str().red().bold());
+        if i == r.m.len() - 1 {
+            let suffix = &r.filename[rmatch.range().end..];
+            print!("{}", suffix);
+        }
+        prev_idx = rmatch.range().end;
+    }
+    println!(" {} {}", "=>".yellow().bold(), r.replaced.bold());
 }
 
 pub fn ask_confirmation() -> bool {
@@ -51,9 +68,16 @@ mod tests {
     use regex::Regex;
 
     #[test]
-    fn test_regex_replacement() {
+    fn test_regex_replacement_only_first() {
         let re = Regex::new("te").unwrap();
-        let replaced = regex_replace("testte.txt", "foo", &re);
+        let replaced = regex_replace("testte.txt", "foo", &re, false);
         assert!(replaced.replaced == "foostte.txt");
+    }
+
+    #[test]
+    fn test_regex_replacement_all() {
+        let re = Regex::new("te").unwrap();
+        let replaced = regex_replace("testte.txt", "foo", &re, true);
+        assert!(replaced.replaced == "foostfoo.txt");
     }
 }

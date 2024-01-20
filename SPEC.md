@@ -44,10 +44,12 @@ Log file to view the operations performed
 2. [x] Next implement regex substitution
 3. [x] Add dry run flag
 4. [x] Add confirmation (yes no for each rename)
-5. [ ] Add basic tests to check the working of all operations
-6. [ ] Rename overwrites if file exists, give warning
-7. [ ] Add recursive flag
-8. [ ] Implement startswith filter
-9. [ ] Improved error messages
-10. [ ] Directory content changes during iteration
-11. [ ] Differentiate between folder and files
+5. [x] Add basic tests to check the working of all operations
+6. [ ] Remove calls to unwrap() and handle errors correctly
+7. [x] Flag to replace all  
+8. [ ] Give warning if rename overwrites an already existing file
+9. [ ] Add recursive flag
+10. [x] Implement startswith filter
+11. [ ] Improved error messages
+12. [ ] Directory content changes during iteration
+13. [ ] Differentiate between folder and files

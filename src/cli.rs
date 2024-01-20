@@ -33,5 +33,10 @@ pub struct Cli {
 
     /// Filters entries with the given regex
     #[arg(short='f', long="filter", allow_hyphen_values=true, value_name="FILTER REGEX")]
-    pub filter_regex: Option<String>
+    pub filter_regex: Option<String>,
+    
+    /// Replaces all occurences of the given regex (by default only the first occurence is replaced)
+    #[arg(long="replace-all", default_value_t=false)]
+    pub replace_all: bool
+    
 }
